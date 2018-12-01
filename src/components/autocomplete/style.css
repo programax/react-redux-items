@@ -1,0 +1,32 @@
+.main-container {
+    position: relative;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.25);
+    margin-right: 1rem;
+    margin-left: 1rem;
+    padding: 0 rem 1rem;
+    justify-items: center;
+    align-items: flex-end;
+    display: flex;
+    box-sizing: content-box;
+    width: 400px;
+}
+
+.container-icon {
+    height: 100%;
+    pointer-events: none;
+    margin-left: .5rem;
+    margin-right: .5rem;
+}
+
+.container-results {
+    position: absolute;
+    z-index: 100000;
+    margin-top: 2.5rem;
+    left: 0;
+    right: 0;
+    top: 0;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}

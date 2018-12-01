@@ -1,0 +1,22 @@
+.details-page {
+    padding: 3rem 1rem;
+    display: flex;
+    justify-content: center;
+}
+
+.paper-container {
+    padding: 1rem;
+    width: fit-content;
+}
+
+.content {
+    padding: 1rem 0rem;
+}
+
+.item-image {
+    width: 100%;
+    height: 250px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+}

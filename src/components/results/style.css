@@ -1,0 +1,17 @@
+.results-page {
+    padding: 3rem 1rem;
+}
+
+.card {
+    width: 345px;
+}
+
+.card-container {
+    display: flex;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.card-media {
+    height: 140px;
+}
