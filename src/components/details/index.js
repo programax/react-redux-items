@@ -1,46 +1,52 @@
-import React from 'react';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import CardActions from '@material-ui/core/CardActions';
-import Button from '@material-ui/core/Button';
-import './style.css';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import Page from './page';
+import findCurrentItem from '../../redux/actions/findCurrentItem';
 
-function Page(props) {
-    const {
-        onSetCurrentPage,
-        currentItem,
-    } = props;
+class Details extends Component {
+    constructor(props) {
+        super(props);
 
-    return (
-        <div className="details-page">
-            <Paper
-                elevation={1}
-                className="paper-container"
-            >
-                <Typography gutterBottom variant="h5" component="h2">
-                    {currentItem.title}
-                </Typography>
+        this.goTo = this.goTo.bind(this);
+    }
 
-                <div
-                    className="item-image"
-                    style={{
-                        backgroundImage: `url(${currentItem.image})`,
-                    }}
-                />
+    componentDidMount() {
+        const {
+            match: { params: { itemId } },
+            findCurrentItem,
+        } = this.props;
 
-                <Typography gutterBottom component="p" className="content">
-                    {currentItem.content}
-                </Typography>
+        findCurrentItem(itemId);
+    }
 
-                <Button
-                    color="primary"
-                    onClick={() => onSetCurrentPage('results')}
-                >
-                    Back
-                </Button>
-            </Paper>
-        </div>
-    );
+    goTo(path) {
+        this.props.history.push(path);
+    }
+
+    render() {
+        const {
+            currentItem,
+        } = this.props;
+
+        return (
+            <Page
+                currentItem={currentItem}
+                goTo={this.goTo}
+            />
+        );
+    }
 }
 
-export default Page;
+const mapStateToProps = state => ({
+    results: state.results,
+    currentItem: state.currentItem,
+});
+
+const mapDispatchToProps = {
+    findCurrentItem,
+};
+
+export default withRouter(
+    connect(mapStateToProps, mapDispatchToProps)(Details)
+);

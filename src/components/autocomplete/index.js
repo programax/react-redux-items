@@ -18,6 +18,7 @@ class Autocomplete extends Component {
         const {
             suggestions,
             onChangeText,
+            onChangeSelection,
             text,
         } = this.props;
         const {
@@ -52,18 +53,24 @@ class Autocomplete extends Component {
                             this.setState({ isOpen: true });
                         }
                     }}
+                    onKeyPress={(event) => {
+                        if (event.key === 'Enter' && text) {
+                            onChangeSelection(text);
+                        }
+                    }}
                 />
                 {isOpen &&
                 <Paper className="container-results" square>
-                    {suggestions.slice(0, 10).map(suggestion =>
+                    {suggestions.map(suggestion =>
                     <MenuItem
+                        key={suggestion.id}
                         component="div"
                         onClick={() => {
-                            onChangeText(suggestion.label);
+                            onChangeSelection(suggestion.title);
                             this.setState({ isOpen: false });
                         }}
                     >
-                        {suggestion.label}
+                        {suggestion.title}
                     </MenuItem>)}
                 </Paper>}
             </div>

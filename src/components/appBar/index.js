@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import Autocomplete from '../autocomplete';
-import './style.css';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import Page from './page';
+import findSuggestions from '../../redux/actions/findSuggestions';
+import findResults from '../../redux/actions/findResults';
 
 class IAppBar extends Component {
     constructor(props) {
@@ -13,6 +12,31 @@ class IAppBar extends Component {
         this.state = {
             text: '',
         };
+
+        this.onChangeText = this.onChangeText.bind(this);
+        this.onChangeSelection = this.onChangeSelection.bind(this);
+    }
+
+    onChangeText(text) {
+        this.setState({ text });
+
+        this.props.findSuggestions(text);
+    }
+
+    onChangeSelection(text) {
+        const {
+            findResults,
+            match,
+            history,
+        } = this.props;
+
+        this.setState({ text });
+
+        findResults(text);
+
+        if (match.path !== '/results') {
+            history.push('/results');
+        }
     }
 
     render() {
@@ -25,25 +49,25 @@ class IAppBar extends Component {
         } = this.props;
 
         return (
-            <AppBar position="static">
-                <Toolbar className="appbar">
-                    <Typography variant="h6" color="inherit">
-                        Programax
-                    </Typography>
-
-                    <Autocomplete
-                        text={text}
-                        suggestions={suggestions || []}
-                        onChangeText={(text) => {
-                            this.setState({ text });
-                        }}
-                    />
-
-                    <AccountCircle />
-                </Toolbar>
-            </AppBar>
+            <Page
+                text={text}
+                suggestions={suggestions}
+                onChangeText={this.onChangeText}
+                onChangeSelection={this.onChangeSelection}
+            />
         );
     }
 }
 
-export default IAppBar;
+const mapStateToProps = state => ({
+    suggestions: state.suggestions,
+});
+
+const mapDispatchToProps = {
+    findSuggestions,
+    findResults,
+};
+
+export default withRouter(
+    connect(mapStateToProps, mapDispatchToProps)(IAppBar)
+);

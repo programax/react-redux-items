@@ -20,3 +20,7 @@
     background-size: contain;
     background-position: center;
 }
+
+.item-loader {
+    padding: 1rem;
+}
